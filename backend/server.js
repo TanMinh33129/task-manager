@@ -7,7 +7,7 @@ const connectDB = require('./src/config/database');
 
 const app = express();
 
-// Kết nối MongoDB Atlas
+// Kết nối MongoDB 
 connectDB();
 
 // Middleware bảo mật
@@ -26,12 +26,12 @@ app.use('/api/tasks',  require('./src/routes/taskRoutes'));
 app.use('/api/admin',  require('./src/routes/adminRoutes'));
 app.use('/api/export', require('./src/routes/exportRoutes'));
 
-// Health check
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server đang chạy bình thường', timestamp: new Date() });
 });
 
-// 404 handler
+
 app.use((req, res) => {
   res.status(404).json({ success: false, message: `Route ${req.originalUrl} không tồn tại` });
 });

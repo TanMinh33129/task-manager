@@ -31,14 +31,12 @@ const userSchema = new mongoose.Schema({
   lastLogin: { type: Date }
 }, { timestamps: true });
 
-// Mã hoá password trước khi lưu
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
+
+userSchema.pre('save', async function() {
+  if (!this.isModified('password')) return;
   this.password = await bcrypt.hash(this.password, 12);
-  next();
 });
 
-// So sánh password khi đăng nhập
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
